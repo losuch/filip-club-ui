@@ -11,7 +11,7 @@ import { setLoginInfo } from '../../lib/util';
 const Login = () => {
   const [token, setToken] = useState('');
   const [loading, setLoading] = useState(false);
-  // const { setAlert } = useContext(NotificationContext);
+  const { setAlert } = useContext(NotificationContext);
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useAuthContext();
 

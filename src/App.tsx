@@ -41,12 +41,12 @@ const App = () => {
       <CssBaseline />
       <Suspense fallback={<div>Loading...</div>}>
         <TemplateContextProvider>
-          {/* <NotificationProvider> */}
-          <AuthContextProvider>
-            <RouterProvider router={router} />
-            {/* <NotificationBanner /> */}
-          </AuthContextProvider>
-          {/* </NotificationProvider> */}
+          <NotificationProvider>
+            <AuthContextProvider>
+              <RouterProvider router={router} />
+              <NotificationBanner />
+            </AuthContextProvider>
+          </NotificationProvider>
         </TemplateContextProvider>
       </Suspense>
     </div>
