@@ -1,17 +1,20 @@
-export function setLoginInfo(
-  tenantName: string,
-  tenantId: string,
-  tenantCode: string
-) {
-  window.localStorage.setItem('tenantName', tenantName);
-  window.localStorage.setItem('tenantId', tenantId);
-  window.localStorage.setItem('tenantCode', tenantCode);
+export function setLoginInfo(token: string, email: string) {
+  window.localStorage.setItem('token', token);
+  window.localStorage.setItem('email', email);
 }
 export function getLoginInfo() {
   const loginInfo = {
-    tenantName: window.localStorage.getItem('tenantName'),
-    tenantId: window.localStorage.getItem('tenantId'),
-    tenantCode: window.localStorage.getItem('tenantCode'),
+    token: window.localStorage.getItem('token'),
+    email: window.localStorage.getItem('email'),
   };
   return loginInfo;
+}
+
+export function getToken() {
+  return window.localStorage.getItem('token');
+}
+
+export function removeLocalInfo() {
+  window.localStorage.setItem('token', '');
+  window.localStorage.setItem('email', '');
 }

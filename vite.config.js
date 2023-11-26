@@ -1,10 +1,11 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import svgr from "vite-plugin-svgr";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/filip-club/',
-  plugins: [react()],
+  plugins: [svgr({ include: "**/*.svg" }), react()],
   test: {
     globals: true,
     environment: 'jsdom',

@@ -25,46 +25,30 @@ export const checkHealth = async (token: string) => {
 };
 
 /**
- * Register new source
+ * create/update service states
  * @param
  * @returns tenant[]
  */
 
-export const registerSource = async (data: {
-  sourceName: string;
-  sourceCode: string;
-  system: string;
-  token: string;
-  activeFlag: boolean;
-}) => {
+export const postSignin = async (data: { email: string; password: string }) => {
   try {
     const response = await api.post(
-      `${baseApiURL}/api/systems/${data.system}`,
-      JSON.stringify([
-        {
-          sourceCode: data.sourceCode,
-          sourceName: data.sourceName,
-          active: Number(data.activeFlag),
-        },
-      ]),
-
+      `${baseApiURL}/api/signin`,
+      JSON.stringify(data),
       {
         headers: {
-          // ...authHeaders,
-          Authorization: data.token,
           'Content-Type': 'application/json',
         },
       }
     );
-
-    return response.data;
-  } catch (error) {
-    console.log('ERROR registering service');
-    console.log(error);
     return {
-      status: error.message,
-      success: false,
+      token: 'Bearer ' + response.data.jwttoken,
+      email: response.data.email,
+    };
+  } catch (error) {
+    return {
       error: true,
+      message: error.message,
     };
   }
 };
@@ -75,10 +59,10 @@ export const registerSource = async (data: {
  * @returns tenant[]
  */
 
-export const fetchServices = async (token: string) => {
+export const fetchProducts = async (token: string) => {
   try {
-    // console.log(token);
-    const response = await api.get(`${baseApiURL}/api/systems`, {
+    console.log(token);
+    const response = await api.get(`${baseApiURL}/api/product/products`, {
       headers: {
         // ...authHeaders,
         Authorization: token,
