@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
       <Nav />
       <div
         style={{
-          padding: '80px 4%',
+          padding: '120px 4%',
           height: '100&',
         }}
       >
