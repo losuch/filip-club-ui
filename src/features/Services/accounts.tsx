@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Layout from '../../components/Layout/Layout';
 
-const Products = () => {
+const Accounts = () => {
   const navigate = useNavigate();
   return (
     <Layout>
@@ -20,11 +20,11 @@ const Products = () => {
             textAlign: 'center',
           }}
         >
-          PRODUCTS
+          ACCOUNTS
         </Typography>
       </div>
     </Layout>
   );
 };
 
-export default Products;
+export default Accounts;

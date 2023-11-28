@@ -9,6 +9,7 @@ import PrivateRoute from './components/PrivateRoute/index';
 
 const Login = React.lazy(() => import('./features/Auth/Login'));
 const Home = React.lazy(() => import('./features/Home'));
+const Accounts = React.lazy(() => import('./features/Services/accounts'));
 const NotFound = React.lazy(() => import('./features/NotFound'));
 
 const router = createBrowserRouter(
@@ -22,6 +23,14 @@ const router = createBrowserRouter(
       element: (
         <PrivateRoute>
           <Home />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: '/admin/accounts',
+      element: (
+        <PrivateRoute>
+          <Accounts />
         </PrivateRoute>
       ),
     },
