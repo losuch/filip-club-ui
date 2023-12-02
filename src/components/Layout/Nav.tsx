@@ -1,5 +1,4 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -12,15 +11,19 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { green } from '@mui/material/colors';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { removeLocalInfo } from '../../lib/util';
-import * as React from 'react';
+import useAuthContext from '../../features/Auth/authContext';
+import { getRoleFromToken, getToken, removeLocalInfo } from '../../lib/util';
 
 const pages = ['Products'];
-const settings = ['Accounts', 'Logout'];
+const adminSettings = ['Accounts', 'Logout'];
+const userSettings = ['Logout'];
 
 const Nav = () => {
   const navigate = useNavigate();
+  const [accessToken, setAccessToken] = useAuthContext();
+  const [settings, setSettings] = useState(userSettings);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -28,6 +31,18 @@ const Nav = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+
+  useEffect(() => {
+    if (accessToken === '') {
+      const token = getToken();
+      setAccessToken(token);
+    }
+    if (getRoleFromToken(accessToken) === 'ADMIN') {
+      setSettings(adminSettings);
+    } else {
+      setSettings(userSettings);
+    }
+  }, [accessToken]);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -74,6 +89,7 @@ const Nav = () => {
             }}
           >
             FILIP-CLUB
+            {/* {accessToken} */}
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -114,7 +130,7 @@ const Nav = () => {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
           <Typography
             variant="h5"
             noWrap
@@ -131,7 +147,7 @@ const Nav = () => {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            FILIP-CLUB
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

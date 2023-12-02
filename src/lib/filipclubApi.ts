@@ -19,7 +19,6 @@ export const checkHealth = async (token: string) => {
     if (response.data.healthy) return true;
     throw new Error('Something failed');
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
@@ -61,7 +60,6 @@ export const postSignin = async (data: { email: string; password: string }) => {
 
 export const fetchProducts = async (token: string) => {
   try {
-    console.log(token);
     const response = await api.get(`${baseApiURL}/api/product/products`, {
       headers: {
         // ...authHeaders,

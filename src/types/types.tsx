@@ -25,3 +25,10 @@ export type routingRuleTeplate = {
   expression: string;
   condition: string;
 };
+
+export interface myToken {
+  sub: string;
+  exp: number;
+  role: string;
+  // whatever else is in the JWT.
+}
