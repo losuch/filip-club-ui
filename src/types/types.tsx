@@ -34,6 +34,7 @@ export interface myToken {
 }
 
 export interface productServiceType {
+  productId: number;
   name: string;
   description: string;
   price: number;
