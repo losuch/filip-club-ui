@@ -5,8 +5,9 @@ import Typography from '@mui/material/Typography';
 import fcLogo from '../../assets/filip_club_logo.png';
 import { hasUserAdminRole } from '../../lib/util';
 import useAuthContext from '../../features/Auth/authContext';
+import { productServiceType } from '../../types/types';
 
-const ProductItem = (props: any) => {
+const ProductItem = (props: { product: productServiceType; onEdit: any }) => {
   const [product, setProduct] = useState(props.product);
   const [accessToken, setAccessToken] = useAuthContext();
 
@@ -15,7 +16,7 @@ const ProductItem = (props: any) => {
   };
 
   return (
-    <Grid item key={product} xs={12} sm={6} md={4}>
+    <Grid item key={product.productId} xs={12} sm={6} md={4}>
       <Card
         sx={{
           height: '100%',
@@ -36,7 +37,7 @@ const ProductItem = (props: any) => {
         <CardActions>
           {/* <Button size="small">View</Button> */}
           {hasUserAdminRole(accessToken) && (
-            <Button size="small" onClick={handleOnEdit}>
+            <Button size="small" variant="outlined" onClick={handleOnEdit}>
               Edit
             </Button>
           )}

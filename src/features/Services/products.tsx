@@ -7,10 +7,12 @@ import ProductItem from '../../components/Product/ProductItem';
 import { fetchProducts } from '../../lib/filipclubApi';
 import { productServiceType } from '../../types/types';
 import useAuthContext from '../Auth/authContext';
+import ProductForm from '../../components/Product/ProductForm';
 
 const Products = () => {
   const [products, setProducts] = useState(Array<productServiceType>());
   const [accessToken, setAccessToken] = useAuthContext();
+  const [openEdit, setOpenEdit] = useState(false);
 
   const onEnter = async () => {
     // setLoading(true);
@@ -32,12 +34,17 @@ const Products = () => {
   }, [accessToken]);
 
   const handleOnEdit = (id: number) => {
-    console.log('open edit for productId:', id);
+    setOpenEdit(true);
+  };
+
+  const handleOnSave = () => {
+    setOpenEdit(false);
   };
 
   return (
     <Layout>
       <div>
+        {openEdit && <ProductForm open={openEdit} onSave={handleOnSave} />}
         <Typography
           variant="h6"
           sx={{
