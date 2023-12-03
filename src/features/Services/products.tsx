@@ -1,18 +1,43 @@
-import { useNavigate } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { useEffect, useState } from 'react';
+import fcLogo from '../../assets/filip_club_logo.png';
 import Layout from '../../components/Layout/Layout';
-
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+import { fetchProducts } from '../../lib/filipclubApi';
+import { hasUserAdminRole } from '../../lib/util';
+import { productServiceType } from '../../types/types';
+import useAuthContext from '../Auth/authContext';
 
 const Products = () => {
-  const navigate = useNavigate();
+  const [products, setProducts] = useState(Array<productServiceType>());
+  const [adminRole, setAdminRole] = useState(false);
+  const [accessToken, setAccessToken] = useAuthContext();
+
+  const onEnter = async () => {
+    // setLoading(true);
+    const res = await fetchProducts(atob(accessToken));
+    if (res.error) {
+      // setLoading(false);
+      return;
+    }
+    // setAccessToken(token);
+
+    setProducts(res.products);
+    // setLoading(false);
+  };
+  useEffect(() => {
+    //  setLoading(true);
+    if (accessToken !== '') {
+      onEnter();
+      setAdminRole(hasUserAdminRole(accessToken));
+    }
+  }, [accessToken]);
+
   return (
     <Layout>
       <div>
@@ -34,8 +59,8 @@ const Products = () => {
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+            {products.map((product) => (
+              <Grid item key={product} xs={12} sm={6} md={4}>
                 <Card
                   sx={{
                     height: '100%',
@@ -43,26 +68,27 @@ const Products = () => {
                     flexDirection: 'column',
                   }}
                 >
-                  <CardMedia
+                  {/* <CardMedia
                     component="div"
                     sx={{
                       // 16:9
                       pt: '56.25%',
                     }}
-                    // image="https://source.unsplash.com/random?wallpapers"
-                  />
+                    image=""
+                  /> */}
+                  <img src={fcLogo} />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                      {product.name}
                     </Typography>
-                    <Typography>
-                      This is a media card. You can use this section to describe
-                      the content.
+                    <Typography>{product.description}</Typography>
+                    <Typography align="right" variant="h6">
+                      € {product.price}
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small">View</Button>
-                    <Button size="small">Edit</Button>
+                    {/* <Button size="small">View</Button> */}
+                    {adminRole && <Button size="small">Edit</Button>}
                   </CardActions>
                 </Card>
               </Grid>

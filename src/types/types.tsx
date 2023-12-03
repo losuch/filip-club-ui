@@ -32,3 +32,9 @@ export interface myToken {
   role: string;
   // whatever else is in the JWT.
 }
+
+export interface productServiceType {
+  name: string;
+  description: string;
+  price: number;
+}

@@ -31,3 +31,16 @@ export function getRoleFromToken(t: string) {
 
   return '';
 }
+
+export function hasUserAdminRole(t: string) {
+  const [type, token] = atob(t).split(' ');
+
+  if (token !== undefined) {
+    const role = jwtDecode<myToken>(token).role;
+    if (role === 'ADMIN') {
+      return true;
+    }
+  }
+
+  return false;
+}
