@@ -12,7 +12,7 @@ const ProductItem = (props: { product: productServiceType; onEdit: any }) => {
   const [accessToken, setAccessToken] = useAuthContext();
 
   const handleOnEdit = () => {
-    props.onEdit(product.productId);
+    props.onEdit(product);
   };
 
   return (
@@ -24,7 +24,7 @@ const ProductItem = (props: { product: productServiceType; onEdit: any }) => {
           flexDirection: 'column',
         }}
       >
-        <img src={fcLogo} />
+        {/* <img src={fcLogo} /> */}
         <CardContent sx={{ flexGrow: 1 }}>
           <Typography gutterBottom variant="h5" component="h2">
             {product.name}

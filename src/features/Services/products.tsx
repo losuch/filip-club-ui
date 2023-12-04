@@ -1,18 +1,24 @@
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout/Layout';
+import ProductForm from '../../components/Product/ProductForm';
 import ProductItem from '../../components/Product/ProductItem';
 import { fetchProducts } from '../../lib/filipclubApi';
 import { productServiceType } from '../../types/types';
 import useAuthContext from '../Auth/authContext';
-import ProductForm from '../../components/Product/ProductForm';
 
 const Products = () => {
   const [products, setProducts] = useState(Array<productServiceType>());
   const [accessToken, setAccessToken] = useAuthContext();
   const [openEdit, setOpenEdit] = useState(false);
+  const [editProduct, setEditProduct] = useState({
+    productId: 0,
+    name: '',
+    description: '',
+    price: 0,
+  });
 
   const onEnter = async () => {
     // setLoading(true);
@@ -33,18 +39,32 @@ const Products = () => {
     }
   }, [accessToken]);
 
-  const handleOnEdit = (id: number) => {
+  const handleOnEdit = (p: productServiceType) => {
+    setEditProduct(p);
     setOpenEdit(true);
   };
 
   const handleOnSave = () => {
+    setEditProduct({
+      productId: 0,
+      name: '',
+      description: '',
+      price: 0,
+    });
     setOpenEdit(false);
   };
 
   return (
     <Layout>
       <div>
-        {openEdit && <ProductForm open={openEdit} onSave={handleOnSave} />}
+        {openEdit && (
+          <ProductForm
+            key={editProduct.productId}
+            open={openEdit}
+            onSave={handleOnSave}
+            product={editProduct}
+          />
+        )}
         <Typography
           variant="h6"
           sx={{
@@ -63,11 +83,13 @@ const Products = () => {
         <Container sx={{ py: 8 }} maxWidth="md">
           <Grid container spacing={4}>
             {products.map((product) => (
-              <ProductItem
-                product={product}
-                key={product.productId}
-                onEdit={handleOnEdit}
-              />
+              <React.Fragment key={product.productId}>
+                <ProductItem
+                  product={product}
+                  key={product.productId}
+                  onEdit={handleOnEdit}
+                />
+              </React.Fragment>
             ))}
           </Grid>
         </Container>

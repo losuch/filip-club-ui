@@ -1,15 +1,20 @@
-import * as React from 'react';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+import React, { useState } from 'react';
 import { productServiceType } from '../../types/types';
+import { Padding } from '@mui/icons-material';
 
-const ProductForm = (props: { open: boolean; onSave: any }) => {
-  const [open, setOpen] = React.useState(props.open);
+const ProductForm = (props: {
+  open: boolean;
+  onSave: any;
+  product: productServiceType;
+}) => {
+  const [open, setOpen] = useState(props.open);
+  const [product, setProduct] = useState(props.product);
 
   const handleClose = () => {
     props.onSave();
@@ -18,29 +23,50 @@ const ProductForm = (props: { open: boolean; onSave: any }) => {
   return (
     <React.Fragment>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>Edit: {product.name}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Lorem ipsum dolor sit amet. Aut laborum repellendus eos consectetur
-            sunt est eligendi nostrum ex fuga aspernatur aut libero quod id eius
-            tempore sed molestias veritatis. Qui excepturi reiciendis eum
-            commodi necessitatibus aut modi rerum qui ducimus sunt non dolorem
-            ullam 33 dolores mollitia. In obcaecati rerum aut porro ratione aut
-            iusto numquam non molestiae necessitatibus ut provident sint.
-          </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Email Address"
-            type="email"
+            label="Name"
+            type="text"
             fullWidth
             variant="standard"
+            value={product.name}
+            required
+            sx={{ marginBottom: 5 }}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="description"
+            label="Description"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={product.description}
+            required
+            multiline
+            sx={{ marginBottom: 5 }}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="price"
+            label="Price"
+            type="number"
+            fullWidth
+            variant="standard"
+            value={product.price}
+            sx={{ marginBottom: 5 }}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Subscribe</Button>
+          <Button onClick={handleClose} variant="contained">
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
