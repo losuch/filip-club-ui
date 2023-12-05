@@ -6,7 +6,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import React, { useState } from 'react';
 import { productServiceType } from '../../types/types';
-import { Padding } from '@mui/icons-material';
 
 const ProductForm = (props: {
   open: boolean;
@@ -16,8 +15,12 @@ const ProductForm = (props: {
   const [open, setOpen] = useState(props.open);
   const [product, setProduct] = useState(props.product);
 
+  const handleChange = (e) => {
+    setProduct((D) => ({ ...D, [e.target.id]: e.target.value }));
+  };
+
   const handleClose = () => {
-    props.onSave();
+    props.onSave(product);
   };
 
   return (
@@ -26,8 +29,7 @@ const ProductForm = (props: {
         <DialogTitle>Edit: {product.name}</DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
-            margin="dense"
+            margin="normal"
             id="name"
             label="Name"
             type="text"
@@ -35,11 +37,10 @@ const ProductForm = (props: {
             variant="standard"
             value={product.name}
             required
-            sx={{ marginBottom: 5 }}
+            onChange={handleChange}
           />
           <TextField
-            autoFocus
-            margin="dense"
+            margin="normal"
             id="description"
             label="Description"
             type="text"
@@ -48,18 +49,18 @@ const ProductForm = (props: {
             value={product.description}
             required
             multiline
-            sx={{ marginBottom: 5 }}
+            maxRows={7}
+            onChange={handleChange}
           />
           <TextField
-            autoFocus
-            margin="dense"
+            margin="normal"
             id="price"
             label="Price"
             type="number"
             fullWidth
             variant="standard"
             value={product.price}
-            sx={{ marginBottom: 5 }}
+            onChange={handleChange}
           />
         </DialogContent>
         <DialogActions>
