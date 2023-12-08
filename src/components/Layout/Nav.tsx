@@ -154,7 +154,7 @@ const Nav = () => {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'black', display: 'block' }}
               >
                 {page}
               </Button>
@@ -165,7 +165,7 @@ const Nav = () => {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
-                <AccountCircleIcon fontSize="large" sx={{ color: green[50] }} />
+                <AccountCircleIcon fontSize="large" sx={{ color: 'black' }} />
               </IconButton>
             </Tooltip>
             <Menu

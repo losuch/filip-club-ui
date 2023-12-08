@@ -10,7 +10,6 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import { red } from '@mui/material/colors';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,7 +18,7 @@ const root = ReactDOM.createRoot(
 const theme = createTheme({
   palette: {
     primary: {
-      main: red[500],
+      main: '#39FF14',
     },
   },
 });

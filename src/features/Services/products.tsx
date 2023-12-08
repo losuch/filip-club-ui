@@ -1,13 +1,15 @@
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Layout from '../../components/Layout/Layout';
 import ProductForm from '../../components/Product/ProductForm';
 import ProductItem from '../../components/Product/ProductItem';
 import { fetchProducts, updateProduct } from '../../lib/filipclubApi';
 import { productServiceType } from '../../types/types';
 import useAuthContext from '../Auth/authContext';
+import NewProductButton from '../../components/Product/NewProductButton';
+import { hasUserAdminRole } from '../../lib/util';
 
 const Products = () => {
   const [products, setProducts] = useState(Array<productServiceType>());
@@ -54,6 +56,8 @@ const Products = () => {
     handlerFetchProducts();
   };
 
+  const handlerNewProductOnClick = () => {};
+
   return (
     <Layout>
       <div>
@@ -92,6 +96,9 @@ const Products = () => {
                   />
                 </React.Fragment>
               ))}
+              {hasUserAdminRole(accessToken) && (
+                <NewProductButton onClick={handlerNewProductOnClick} />
+              )}
             </Grid>
           </Container>
         )}
