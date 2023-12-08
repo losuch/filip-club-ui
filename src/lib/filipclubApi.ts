@@ -1,5 +1,5 @@
 import { api, baseApiURL } from '../app/api';
-import { deleteServiceStateType, postServiceStateType } from '../types/types';
+import { productServiceType } from '../types/types';
 
 /**
  * Check if health is ok
@@ -24,9 +24,9 @@ export const checkHealth = async (token: string) => {
 };
 
 /**
- * create/update service states
+ * signin API for login process
  * @param
- * @returns tenant[]
+ * @returns token
  */
 
 export const postSignin = async (data: { email: string; password: string }) => {
@@ -53,9 +53,9 @@ export const postSignin = async (data: { email: string; password: string }) => {
 };
 
 /**
- * Get All Available sources
+ * Get all available products
  * @param
- * @returns tenant[]
+ * @returns product[]
  */
 
 export const fetchProducts = async (token: string) => {
@@ -74,6 +74,36 @@ export const fetchProducts = async (token: string) => {
       error: true,
       message: error.response.data.message,
       status: error.response.status,
+    };
+  }
+};
+
+/**
+ * create/update product states
+ * @param
+ * @returns tenant[]
+ */
+
+export const updateProduct = async (
+  data: productServiceType,
+  token: string
+) => {
+  try {
+    const response = await api.put(
+      `${baseApiURL}/api/product/products/${data.productId}`,
+      JSON.stringify(data),
+      {
+        headers: {
+          Authorization: token,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return {
+      error: true,
+      message: error.message,
     };
   }
 };
@@ -148,41 +178,3 @@ export const fetchSourceCredentials = async (
     };
   }
 };
-
-/**
- * create/update service states
- * @param
- * @returns tenant[]
- */
-
-export const postSoureConfiguration = async (data: {
-  systemCode: string;
-  sourceCode: string;
-  token: string;
-  body: Object;
-}) => {
-  try {
-    const response = await api.post(
-      `${baseApiURL}/api/systems/${data.systemCode}/${data.sourceCode}`,
-      JSON.stringify(Object),
-      {
-        headers: {
-          Authorization: data.token,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    return {
-      error: true,
-      message: error.message,
-    };
-  }
-};
-
-/**
- * create/update service states
- * @param
- * @returns tenant[]
- */
