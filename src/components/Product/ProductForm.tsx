@@ -8,8 +8,10 @@ import React, { useState } from 'react';
 import { productServiceType } from '../../types/types';
 
 const ProductForm = (props: {
+  titel: string;
   open: boolean;
   onSave: any;
+  onCancel: any;
   product: productServiceType;
 }) => {
   const [open, setOpen] = useState(props.open);
@@ -19,14 +21,18 @@ const ProductForm = (props: {
     setProduct((D) => ({ ...D, [e.target.id]: e.target.value }));
   };
 
-  const handleClose = () => {
+  const handleSave = () => {
     props.onSave(product);
+  };
+
+  const handleClose = () => {
+    props.onCancel();
   };
 
   return (
     <React.Fragment>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit: {product.name}</DialogTitle>
+        <DialogTitle>{props.titel}</DialogTitle>
         <DialogContent>
           <TextField
             margin="normal"
@@ -65,7 +71,7 @@ const ProductForm = (props: {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose} variant="contained">
+          <Button onClick={handleSave} variant="contained">
             Save
           </Button>
         </DialogActions>

@@ -5,7 +5,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Layout from '../../components/Layout/Layout';
 import ProductForm from '../../components/Product/ProductForm';
 import ProductItem from '../../components/Product/ProductItem';
-import { fetchProducts, updateProduct } from '../../lib/filipclubApi';
+import {
+  fetchProducts,
+  updateProduct,
+  createNewProduct,
+} from '../../lib/filipclubApi';
 import { productServiceType } from '../../types/types';
 import useAuthContext from '../Auth/authContext';
 import NewProductButton from '../../components/Product/NewProductButton';
@@ -16,7 +20,8 @@ const Products = () => {
   const [accessToken, setAccessToken] = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [openEdit, setOpenEdit] = useState(false);
-  const [editProduct, setEditProduct] = useState(Array<productServiceType>());
+  const [editProduct, setEditProduct] = useState({});
+  const [productFormTitel, setProductFormTitel] = useState('');
 
   const handlerFetchProducts = useCallback(async () => {
     setLoading(true);
@@ -38,34 +43,51 @@ const Products = () => {
   }, [accessToken, handlerFetchProducts]);
 
   const handleOnEdit = (p: productServiceType) => {
+    setProductFormTitel('Edit Product');
     setEditProduct(p);
     setOpenEdit(true);
   };
 
-  const handleOnSave = async (product: productServiceType) => {
-    setEditProduct([
-      {
-        productId: 0,
-        name: '',
-        description: '',
-        price: 0,
-      },
-    ]);
+  const handleOnSaveProductForm = async (product: productServiceType) => {
+    console.log(product);
+    if (product.productId === 0) {
+      // new product
+      console.log('new product');
+      const res = await createNewProduct(product, atob(accessToken));
+    } else {
+      // update product
+      console.log('update product');
+      const res = await updateProduct(product, atob(accessToken));
+    }
     setOpenEdit(false);
-    const res = await updateProduct(product, atob(accessToken));
     handlerFetchProducts();
   };
 
-  const handlerNewProductOnClick = () => {};
+  const handleOnCancelProductForm = () => {
+    setOpenEdit(false);
+  };
+
+  const handlerNewProductOnClick = () => {
+    setProductFormTitel('New Product');
+    setEditProduct({
+      productId: 0,
+      name: '',
+      description: '',
+      price: 0,
+    });
+    setOpenEdit(true);
+  };
 
   return (
     <Layout>
       <div>
         {openEdit && (
           <ProductForm
+            titel={productFormTitel}
             key={editProduct.productId}
             open={openEdit}
-            onSave={handleOnSave}
+            onSave={handleOnSaveProductForm}
+            onCancel={handleOnCancelProductForm}
             product={editProduct}
           />
         )}

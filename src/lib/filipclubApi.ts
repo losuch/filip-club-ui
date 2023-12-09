@@ -79,9 +79,9 @@ export const fetchProducts = async (token: string) => {
 };
 
 /**
- * create/update product states
+ * update product
  * @param
- * @returns tenant[]
+ * @returns product
  */
 
 export const updateProduct = async (
@@ -91,6 +91,36 @@ export const updateProduct = async (
   try {
     const response = await api.put(
       `${baseApiURL}/api/product/products/${data.productId}`,
+      JSON.stringify(data),
+      {
+        headers: {
+          Authorization: token,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return {
+      error: true,
+      message: error.message,
+    };
+  }
+};
+
+/**
+ * update product
+ * @param
+ * @returns product
+ */
+
+export const createNewProduct = async (
+  data: productServiceType,
+  token: string
+) => {
+  try {
+    const response = await api.post(
+      `${baseApiURL}/api/product/products`,
       JSON.stringify(data),
       {
         headers: {

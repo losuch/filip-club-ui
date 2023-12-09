@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import { Grid, Card, CardContent, CardActions } from '@mui/material';
+import { Card, CardActions, CardContent, Grid } from '@mui/material';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import fcLogo from '../../assets/filip_club_logo.png';
-import { hasUserAdminRole } from '../../lib/util';
+import { useState } from 'react';
 import useAuthContext from '../../features/Auth/authContext';
+import { hasUserAdminRole } from '../../lib/util';
 import { productServiceType } from '../../types/types';
 
 const ProductItem = (props: { product: productServiceType; onEdit: any }) => {
@@ -37,7 +36,7 @@ const ProductItem = (props: { product: productServiceType; onEdit: any }) => {
         <CardActions>
           {/* <Button size="small">View</Button> */}
           {hasUserAdminRole(accessToken) && (
-            <Button size="small" variant="outlined" onClick={handleOnEdit}>
+            <Button size="small" variant="contained" onClick={handleOnEdit}>
               Edit
             </Button>
           )}
