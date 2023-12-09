@@ -1,17 +1,25 @@
 import { Card, CardActions, CardContent, Grid } from '@mui/material';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import useAuthContext from '../../features/Auth/authContext';
 import { hasUserAdminRole } from '../../lib/util';
 import { productServiceType } from '../../types/types';
 
-const ProductItem = (props: { product: productServiceType; onEdit: any }) => {
+const ProductItem = (props: {
+  product: productServiceType;
+  onEdit: any;
+  onDelete: any;
+}) => {
   const [product, setProduct] = useState(props.product);
   const [accessToken, setAccessToken] = useAuthContext();
 
   const handleOnEdit = () => {
     props.onEdit(product);
+  };
+
+  const handleOnDelete = () => {
+    props.onDelete(product.productId, product.name);
   };
 
   return (
@@ -36,9 +44,19 @@ const ProductItem = (props: { product: productServiceType; onEdit: any }) => {
         <CardActions>
           {/* <Button size="small">View</Button> */}
           {hasUserAdminRole(accessToken) && (
-            <Button size="small" variant="contained" onClick={handleOnEdit}>
-              Edit
-            </Button>
+            <React.Fragment>
+              <Button size="small" variant="contained" onClick={handleOnEdit}>
+                Edit
+              </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                color="error"
+                onClick={handleOnDelete}
+              >
+                Delete
+              </Button>
+            </React.Fragment>
           )}
         </CardActions>
       </Card>

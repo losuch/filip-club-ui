@@ -9,11 +9,13 @@ import {
   fetchProducts,
   updateProduct,
   createNewProduct,
+  removeProduct,
 } from '../../lib/filipclubApi';
 import { productServiceType } from '../../types/types';
 import useAuthContext from '../Auth/authContext';
 import NewProductButton from '../../components/Product/NewProductButton';
 import { hasUserAdminRole } from '../../lib/util';
+import ConfirmDeleteProduct from '../../components/Product/ConfirmDeleteProduct';
 
 const Products = () => {
   const [products, setProducts] = useState(Array<productServiceType>());
@@ -22,6 +24,8 @@ const Products = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [editProduct, setEditProduct] = useState({});
   const [productFormTitel, setProductFormTitel] = useState('');
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
+  const [deleteProduct, setDeleteProduct] = useState({});
 
   const handlerFetchProducts = useCallback(async () => {
     setLoading(true);
@@ -46,6 +50,12 @@ const Products = () => {
     setProductFormTitel('Edit Product');
     setEditProduct(p);
     setOpenEdit(true);
+  };
+
+  const handleOnDelete = (productId: number, name: string) => {
+    setDeleteProduct({ id: productId, name: name });
+    setOpenConfirmDelete(true);
+    console.log('Delelete product: ', name);
   };
 
   const handleOnSaveProductForm = async (product: productServiceType) => {
@@ -78,6 +88,17 @@ const Products = () => {
     setOpenEdit(true);
   };
 
+  const handleConfirmDeleteProduct = async (id: number) => {
+    console.log('delete product with ID: ', id);
+    const resDelete = await removeProduct(id, atob(accessToken));
+    setOpenConfirmDelete(false);
+    handlerFetchProducts();
+  };
+
+  const handleCancelDelete = () => {
+    setOpenConfirmDelete(false);
+  };
+
   return (
     <Layout>
       <div>
@@ -89,6 +110,15 @@ const Products = () => {
             onSave={handleOnSaveProductForm}
             onCancel={handleOnCancelProductForm}
             product={editProduct}
+          />
+        )}
+        {openConfirmDelete && (
+          <ConfirmDeleteProduct
+            open={openConfirmDelete}
+            productName={deleteProduct.name}
+            confirmDelete={handleConfirmDeleteProduct}
+            cancelDelete={handleCancelDelete}
+            productId={deleteProduct.id}
           />
         )}
         <Typography
@@ -115,6 +145,7 @@ const Products = () => {
                     product={product}
                     key={product.productId}
                     onEdit={handleOnEdit}
+                    onDelete={handleOnDelete}
                   />
                 </React.Fragment>
               ))}

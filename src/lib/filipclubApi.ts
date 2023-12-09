@@ -139,6 +139,35 @@ export const createNewProduct = async (
 };
 
 /**
+ *
+ * @param token Delete Product
+ * @returns
+ */
+
+export const removeProduct = async (productId: number, token: string) => {
+  try {
+    const response = await api.delete(
+      `${baseApiURL}/api/product/products/${productId}`,
+      {
+        headers: {
+          // ...authHeaders,
+          Authorization: token,
+          Accept: 'application/json, text/plain, */*',
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (!error.response) return { error: true, message: 'Network Error' };
+    return {
+      error: true,
+      message: error.response.data.message,
+      status: error.response.status,
+    };
+  }
+};
+
+/**
  * Get source configuration
  * @param
  * @returns tenant[]
