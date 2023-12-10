@@ -39,6 +39,7 @@ const Products = () => {
     setProducts(res.products);
     setLoading(false);
   }, [accessToken]);
+
   useEffect(() => {
     //  setLoading(true);
     if (accessToken !== '') {

@@ -168,72 +168,27 @@ export const removeProduct = async (productId: number, token: string) => {
 };
 
 /**
- * Get source configuration
+ * Get all available account
  * @param
- * @returns tenant[]
+ * @returns accounts[]
  */
 
-export const fetchSourceConfiguration = async (
-  system: string,
-  source: string,
-  token: string
-) => {
+export const fetchAccounts = async (token: string) => {
   try {
-    const response = await api.get(
-      `${baseApiURL}/api/systems/${system}/${source}`,
-      {
-        headers: {
-          // ...authHeaders,
-          Authorization: token,
-          'Content-Type': 'application/json, text/plain, */*',
-        },
-      }
-    );
+    const response = await api.get(`${baseApiURL}/api/admin/accounts`, {
+      headers: {
+        // ...authHeaders,
+        Authorization: token,
+        Accept: 'application/json',
+      },
+    });
     return response.data;
   } catch (error) {
-    if (error.response.status === 404) {
-      return {};
-    }
-
+    if (!error.response) return { error: true, message: 'Network Error' };
     return {
       error: true,
-      message: error.message,
-    };
-  }
-};
-
-/**
- * Fetch source credentials
- * @param system
- * @param source
- * @param token
- * @returns credential object for corespopnding system
- */
-export const fetchSourceCredentials = async (
-  system: string,
-  source: string,
-  token: string
-) => {
-  try {
-    const response = await api.get(
-      `${baseApiURL}/api/systems/${system}/${source}/credentials`,
-      {
-        headers: {
-          // ...authHeaders,
-          Authorization: token,
-          'Content-Type': 'application/json, text/plain, */*',
-        },
-      }
-    );
-    return { data: response.data, status: response.status };
-  } catch (error) {
-    if (error.response.status === 404) {
-      return null;
-    }
-
-    return {
-      error: true,
-      message: error.message,
+      message: error.response.data.message,
+      status: error.response.status,
     };
   }
 };

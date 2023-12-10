@@ -39,3 +39,9 @@ export interface productServiceType {
   description: string;
   price: number;
 }
+
+export interface accountServiceType {
+  accountId: number;
+  email: string;
+  role: string;
+}
