@@ -1,10 +1,11 @@
-import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AccountTable from '../../components/Account/AccountTable';
 import Layout from '../../components/Layout/Layout';
-import useAuthContext from '../Auth/authContext';
-import { accountServiceType } from '../../types/types';
 import { fetchAccounts } from '../../lib/filipclubApi';
-import { useState, useEffect, useCallback } from 'react';
+import { accountServiceType } from '../../types/types';
+import useAuthContext from '../Auth/authContext';
 
 const Accounts = () => {
   const navigate = useNavigate();
@@ -43,10 +44,12 @@ const Accounts = () => {
             color: 'inherit',
             textDecoration: 'none',
             textAlign: 'center',
+            marginBottom: 3,
           }}
         >
           ACCOUNTS
         </Typography>
+        {!loading && <AccountTable accounts={accounts} />}
       </div>
     </Layout>
   );
