@@ -252,3 +252,30 @@ export const updateAccount = async (
     };
   }
 };
+
+/**
+ * delete account
+ *
+ * @param
+ * @returns product
+ */
+
+export const deleteAccount = async (accountId: number, token: string) => {
+  try {
+    const response = await api.delete(
+      `${baseApiURL}/api/admin/accounts/${accountId}`,
+      {
+        headers: {
+          Authorization: token,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return {
+      error: true,
+      message: error.message,
+    };
+  }
+};

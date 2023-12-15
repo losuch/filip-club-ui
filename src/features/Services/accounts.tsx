@@ -5,6 +5,7 @@ import AccountTable from '../../components/Account/AccountTable';
 import Layout from '../../components/Layout/Layout';
 import {
   createNewAccount,
+  deleteAccount,
   fetchAccounts,
   updateAccount,
 } from '../../lib/filipclubApi';
@@ -107,6 +108,21 @@ const Accounts = () => {
     []
   );
 
+  const handleOnDelete = useCallback(async (accountId: number) => {
+    const res = await deleteAccount(accountId, atob(accessToken));
+    if (res.error) {
+      return;
+    }
+    setOpenUpdateAccountForm(false);
+    setAccountDetails({
+      accountId: 0,
+      email: '',
+      password: '',
+      role: '',
+    });
+    handlerFetchAccounts();
+  }, []);
+
   return (
     <Layout>
       <div>
@@ -143,6 +159,7 @@ const Accounts = () => {
             onCancel={handleOnCancel}
             onSave={hadleOnSaveUpdateAccount}
             onChange={handleOnChange}
+            onDelete={handleOnDelete}
             titel="Edit Account"
           />
         )}

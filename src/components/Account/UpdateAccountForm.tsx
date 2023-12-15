@@ -13,6 +13,7 @@ const UpdateAccountForm = (props: {
   onCancel: any;
   onSave: any;
   onChange: any;
+  onDelete: any;
   titel: string;
 }) => {
   const [repeatePassword, setRepeatePassword] = useState('');
@@ -38,6 +39,11 @@ const UpdateAccountForm = (props: {
   const handleClose = () => {
     props.onCancel();
   };
+
+  const handleDeleteButton = () => {
+    props.onDelete(props.account.accountId);
+  };
+
   return (
     <React.Fragment>
       <Dialog open={props.open} onClose={handleClose}>
@@ -90,6 +96,14 @@ const UpdateAccountForm = (props: {
             />
           </DialogContent>
           <DialogActions>
+            <Button
+              onClick={handleDeleteButton}
+              variant="contained"
+              color="error"
+              sx={{ position: 'absolute', left: 8 }}
+            >
+              Delete
+            </Button>
             <Button onClick={handleClose}>Cancel</Button>
             <Button type="submit" variant="contained">
               Save
