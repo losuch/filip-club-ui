@@ -1,5 +1,5 @@
 import { api, baseApiURL } from '../app/api';
-import { productServiceType } from '../types/types';
+import { accountServiceType, productServiceType } from '../types/types';
 
 /**
  * Check if health is ok
@@ -109,7 +109,7 @@ export const updateProduct = async (
 };
 
 /**
- * update product
+ * create new product
  * @param
  * @returns product
  */
@@ -189,6 +189,66 @@ export const fetchAccounts = async (token: string) => {
       error: true,
       message: error.response.data.message,
       status: error.response.status,
+    };
+  }
+};
+
+/**
+ * new account
+ * @param
+ * @returns product
+ */
+
+export const createNewAccount = async (
+  data: accountServiceType,
+  token: string
+) => {
+  try {
+    const response = await api.post(
+      `${baseApiURL}/api/admin/accounts`,
+      JSON.stringify(data),
+      {
+        headers: {
+          Authorization: token,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return {
+      error: true,
+      message: error.message,
+    };
+  }
+};
+
+/**
+ * update account
+ * @param
+ * @returns product
+ */
+
+export const updateAccount = async (
+  data: accountServiceType,
+  token: string
+) => {
+  try {
+    const response = await api.put(
+      `${baseApiURL}/api/admin/accounts/${data.accountId}`,
+      JSON.stringify(data),
+      {
+        headers: {
+          Authorization: token,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return {
+      error: true,
+      message: error.message,
     };
   }
 };

@@ -17,7 +17,7 @@ const ProductForm = (props: {
   const [open, setOpen] = useState(props.open);
   const [product, setProduct] = useState(props.product);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProduct((D) => ({ ...D, [e.target.id]: e.target.value }));
   };
 

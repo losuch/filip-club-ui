@@ -42,6 +42,7 @@ export interface productServiceType {
 
 export interface accountServiceType {
   accountId: number;
+  password: string;
   email: string;
   role: string;
 }
