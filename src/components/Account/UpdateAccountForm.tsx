@@ -4,6 +4,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import React, { useState } from 'react';
 import { accountServiceType } from '../../types/types';
 
@@ -13,6 +17,7 @@ const UpdateAccountForm = (props: {
   onCancel: any;
   onSave: any;
   onChange: any;
+  onRoleChange: any;
   onDelete: any;
   titel: string;
 }) => {
@@ -35,6 +40,9 @@ const UpdateAccountForm = (props: {
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     props.onChange(e);
+  };
+  const handleChangeRole = (e: SelectChangeEvent) => {
+    props.onRoleChange(e);
   };
   const handleClose = () => {
     props.onCancel();
@@ -83,17 +91,24 @@ const UpdateAccountForm = (props: {
               error={repeatePasswordError}
               onChange={handleOnChangeRepeatePassword}
             />
-            <TextField
-              margin="normal"
-              id="role"
-              label="Role"
-              type="text"
-              fullWidth
-              variant="standard"
-              value={props.account.role}
-              required
-              onChange={handleChange}
-            />
+            <FormControl fullWidth sx={{ marginTop: 1 }}>
+              <InputLabel id="role" required>
+                Role
+              </InputLabel>
+              <Select
+                name="role"
+                labelId="role"
+                id="role"
+                value={props.account.role}
+                label="Role"
+                variant="standard"
+                required
+                onChange={handleChangeRole}
+              >
+                <MenuItem value={'USER'}>USER</MenuItem>
+                <MenuItem value={'ADMIN'}>ADMIN</MenuItem>
+              </Select>
+            </FormControl>
           </DialogContent>
           <DialogActions>
             <Button

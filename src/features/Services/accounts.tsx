@@ -9,6 +9,7 @@ import {
   fetchAccounts,
   updateAccount,
 } from '../../lib/filipclubApi';
+import { SelectChangeEvent } from '@mui/material/Select';
 import { accountServiceType } from '../../types/types';
 import useAuthContext from '../Auth/authContext';
 import NewAccountForm from '../../components/Account/NewAccountForm';
@@ -73,6 +74,10 @@ const Accounts = () => {
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAccountDetails((D: any) => ({ ...D, [e.target.id]: e.target.value }));
+  };
+
+  const handleOnRoleChange = (e: SelectChangeEvent) => {
+    setAccountDetails((D: any) => ({ ...D, [e.target.name]: e.target.value }));
   };
 
   const hadleOnSaveNewAccount = useCallback(async (a: accountServiceType) => {
@@ -149,6 +154,7 @@ const Accounts = () => {
             onCancel={handleOnCancel}
             onSave={hadleOnSaveNewAccount}
             onChange={handleOnChange}
+            onRoleChange={handleOnRoleChange}
             titel="New Account"
           />
         )}
@@ -159,6 +165,7 @@ const Accounts = () => {
             onCancel={handleOnCancel}
             onSave={hadleOnSaveUpdateAccount}
             onChange={handleOnChange}
+            onRoleChange={handleOnRoleChange}
             onDelete={handleOnDelete}
             titel="Edit Account"
           />
