@@ -40,7 +40,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: '/filip-club',
+    basename: '/',
   }
 );
 

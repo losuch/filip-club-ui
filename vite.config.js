@@ -4,7 +4,7 @@ import svgr from "vite-plugin-svgr";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/filip-club/',
+  base: '/',
   plugins: [svgr({ include: "**/*.svg" }), react()],
   test: {
     globals: true,
