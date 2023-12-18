@@ -5,7 +5,7 @@ import axios from 'axios';
 //     ? "https://dt-kfk-usv-dev2-pl1-en1.test2.devops.dt.solutions.iqvia.com/glb-configs"
 //     : "/glb-configs";
 
-export const baseApiURL = 'http://fili-club:8080';
+export const baseApiURL = 'https://test.fili-club';
 
 const api = axios.create({
   // ...(process.env.NODE_ENV === "test" && {
