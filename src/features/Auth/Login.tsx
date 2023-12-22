@@ -87,9 +87,8 @@ const Login = () => {
         >
           <img src={fcLogo} width={100} height={100} />
           <Typography component="h1" variant="h5">
-            Log in
+            Sign in
           </Typography>
-          {/* Sign in */}
           <Box
             component="form"
             onSubmit={handleSubmit}
