@@ -6,4 +6,7 @@ aws ecr get-login-password --region eu-central-1 --profile github-ci | docker lo
 
 
 # deploy application
+docker stop filip-club-ui
+docker rm filip-club-ui
+docker pull 396315277532.dkr.ecr.eu-central-1.amazonaws.com/filip-club-ui:latest
 docker run --name filip-club-ui --network fc-network -p 80:80 -d 396315277532.dkr.ecr.eu-central-1.amazonaws.com/filip-club-ui:latest
