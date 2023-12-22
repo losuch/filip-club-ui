@@ -57,6 +57,5 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > ssh_private_key && chmod 600 ssh_private_key
           ssh -i ssh_private_key -o "StrictHostKeyChecking no" $SERVER_USER@$SERVER_ADDRESS 'mkdir application'
-
-# cat deploy.sh | ssh -i ssh_private_key ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_ADDRESS }} 'cat > ./application/deploy.sh'
-# ssh -i ssh_private_key ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_ADDRESS }} 'bash -c "cd application && chmod -R 755 ./deploy.sh && ./deploy.sh && cd .. && rm -rf application"'
+          cat deploy.sh | ssh -i ssh_private_key -o "StrictHostKeyChecking no" $SERVER_USER@$SERVER_ADDRESS 'cat > ./application/deploy.sh'
+          ssh -i ssh_private_key -o "StrictHostKeyChecking no" $SERVER_USER@$SERVER_ADDRESS 'bash -c "cd application && chmod -R 755 ./deploy.sh && ./deploy.sh && cd .. && rm -rf application"'
