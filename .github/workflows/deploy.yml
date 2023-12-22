@@ -53,14 +53,7 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          # Copy ssh private key to the file with permissions
           echo "$SSH_PRIVATE_KEY" > ssh_private_key && chmod 600 ssh_private_key
-
-          # Create application folder on ec2
           ssh -i ssh_private_key ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_ADDRESS }} 'mkdir application'
-
-          # Copy deploy.sh file in the application folder inside the EC2 instance,
           cat deploy.sh | ssh -i ssh_private_key ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_ADDRESS }} 'cat > ./application/deploy.sh'
-
-          # Copy docker-compose to EC2, configure envrinment variabes and run deploy.sh
           ssh -i ssh_private_key ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_ADDRESS }} 'bash -c "cd application && chmod -R 755 ./deploy.sh && ./deploy.sh && cd .. && rm -rf application"'
