@@ -1,5 +1,9 @@
 import { api, baseApiURL } from '../app/api';
-import { accountServiceType, productServiceType } from '../types/types';
+import {
+  accountServiceType,
+  productServiceType,
+  filmServiceType,
+} from '../types/types';
 
 /**
  * Check if health is ok
@@ -276,6 +280,115 @@ export const deleteAccount = async (accountId: number, token: string) => {
     return {
       error: true,
       message: error.message,
+    };
+  }
+};
+
+/**
+ * Get all available products
+ * @param
+ * @returns product[]
+ */
+
+export const fetchFilms = async (token: string) => {
+  try {
+    const response = await api.get(`${baseApiURL}/api/film/films`, {
+      headers: {
+        // ...authHeaders,
+        Authorization: token,
+        Accept: 'application/json, text/plain, */*',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (!error.response) return { error: true, message: 'Network Error' };
+    return {
+      error: true,
+      message: error.response.data.message,
+      status: error.response.status,
+    };
+  }
+};
+
+/**
+ * update product
+ * @param
+ * @returns product
+ */
+
+export const updateFilm = async (data: filmServiceType, token: string) => {
+  try {
+    const response = await api.put(
+      `${baseApiURL}/api/film/films/${data.filmId}`,
+      JSON.stringify(data),
+      {
+        headers: {
+          Authorization: token,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return {
+      error: true,
+      message: error.message,
+    };
+  }
+};
+
+/**
+ * create new product
+ * @param
+ * @returns product
+ */
+
+export const createNewFilm = async (data: filmServiceType, token: string) => {
+  try {
+    const response = await api.post(
+      `${baseApiURL}/api/film/films`,
+      JSON.stringify(data),
+      {
+        headers: {
+          Authorization: token,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return {
+      error: true,
+      message: error.message,
+    };
+  }
+};
+
+/**
+ *
+ * @param token Delete Product
+ * @returns
+ */
+
+export const removeFilm = async (filmId: number, token: string) => {
+  try {
+    const response = await api.delete(
+      `${baseApiURL}/api/film/films/${filmId}`,
+      {
+        headers: {
+          // ...authHeaders,
+          Authorization: token,
+          Accept: 'application/json, text/plain, */*',
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (!error.response) return { error: true, message: 'Network Error' };
+    return {
+      error: true,
+      message: error.response.data.message,
+      status: error.response.status,
     };
   }
 };
