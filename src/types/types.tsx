@@ -46,3 +46,10 @@ export interface accountServiceType {
   email: string;
   role: string;
 }
+
+export interface filmServiceType {
+  filmId: number;
+  name: string;
+  type: string;
+  ytLink: string;
+}

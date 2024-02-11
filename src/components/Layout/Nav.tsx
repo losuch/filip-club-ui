@@ -10,13 +10,12 @@ import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { green } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthContext from '../../features/Auth/authContext';
 import { getRoleFromToken, getToken, removeLocalInfo } from '../../lib/util';
 
-const pages = ['Products'];
+const pages = ['Products', 'Films'];
 const adminSettings = ['Accounts', 'Logout'];
 const userSettings = ['Logout'];
 
@@ -52,8 +51,10 @@ const Nav = () => {
   };
 
   const handleCloseNavMenu = (e) => {
-    if (e.target.innerText === 'PRODUCTS') {
+    if (e.target.id === 'Products') {
       navigate('/products');
+    } else if (e.target.id === 'Films') {
+      navigate('/films');
     }
     setAnchorElNav(null);
   };
@@ -153,6 +154,7 @@ const Nav = () => {
             {pages.map((page) => (
               <Button
                 key={page}
+                id={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'black', display: 'block' }}
               >

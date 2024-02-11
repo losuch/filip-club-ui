@@ -60,7 +60,6 @@ const Products = () => {
   };
 
   const handleOnSaveProductForm = async (product: productServiceType) => {
-    console.log(product);
     if (product.productId === 0) {
       // new product
       console.log('new product');

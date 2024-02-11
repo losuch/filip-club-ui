@@ -4,26 +4,26 @@ import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
 import useAuthContext from '../../features/Auth/authContext';
 import { hasUserAdminRole } from '../../lib/util';
-import { productServiceType } from '../../types/types';
+import { filmServiceType } from '../../types/types';
 
-const ProductItem = (props: {
-  product: productServiceType;
+const FilmItem = (props: {
+  film: filmServiceType;
   onEdit: any;
   onDelete: any;
 }) => {
-  const [product, setProduct] = useState(props.product);
+  const [film, setFilm] = useState(props.film);
   const [accessToken, setAccessToken] = useAuthContext();
 
   const handleOnEdit = () => {
-    props.onEdit(product);
+    props.onEdit(film);
   };
 
   const handleOnDelete = () => {
-    props.onDelete(product.productId, product.name);
+    props.onDelete(film.filmId, film.name);
   };
 
   return (
-    <Grid item key={product.productId} xs={12} sm={6} md={4}>
+    <Grid item key={film.filmId} xs={12} sm={6} md={6}>
       <Card
         sx={{
           height: '100%',
@@ -33,12 +33,18 @@ const ProductItem = (props: {
       >
         <CardContent sx={{ flexGrow: 1 }}>
           <Typography gutterBottom variant="h5" component="h2">
-            {product.name}
+            {film.name}
           </Typography>
-          <Typography>{product.description}</Typography>
-          <Typography align="right" variant="h6">
-            € {product.price}
-          </Typography>
+          <div style={{ padding: 20 }}>
+            <iframe
+              title={film.name}
+              src={film.ytLink}
+              loading="eager"
+              allowFullScreen
+              width="100%"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            ></iframe>
+          </div>
         </CardContent>
         <CardActions>
           {hasUserAdminRole(accessToken) && (
@@ -62,4 +68,4 @@ const ProductItem = (props: {
   );
 };
 
-export default ProductItem;
+export default FilmItem;
