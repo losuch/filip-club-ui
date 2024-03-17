@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const baseApiURL = 'https://test.filip-club.de';
+export const baseApiURL = 'https://filip-club.de';
 // export const baseApiURL = 'http://localhost:8080';
 
 const api = axios.create({

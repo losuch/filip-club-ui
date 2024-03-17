@@ -1,4 +1,6 @@
 import { Card, CardActions, CardContent, Grid } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
@@ -45,6 +47,8 @@ const FilmItem = (props: {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             ></iframe>
           </div>
+          {film.active && <CheckCircleIcon color="success" />}
+          {!film.active && <CancelIcon color="error" />}
         </CardContent>
         <CardActions>
           {hasUserAdminRole(accessToken) && (
