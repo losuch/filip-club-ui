@@ -51,5 +51,6 @@ export interface filmServiceType {
   filmId: number;
   name: string;
   type: string;
+  active: boolean;
   ytLink: string;
 }
